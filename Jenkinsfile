@@ -168,6 +168,47 @@ pipeline {
         }
 
         // ============================================================
+        // SONARQUBE ANALYSIS
+        // ============================================================
+        stage('SonarQube Analysis') {
+            agent {
+                docker {
+                    image 'sonarsource/sonar-scanner-cli:latest'
+                    reuseNode true
+                    args '--network cicd-network'
+                }
+            }
+
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                        set -e
+
+                        echo "=== SonarQube Analysis ==="
+
+                        sonar-scanner \
+                            -Dsonar.java.binaries=target/classes \
+                            -Dsonar.java.test.binaries=target/test-classes \
+                            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+
+                        echo "=== SonarQube Analysis Completed ==="
+                    '''
+                }
+            }
+        }
+
+        // ============================================================
+        // QUALITY GATE
+        // ============================================================
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 30, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        // ============================================================
         // PACKAGE APPLICATION (Spring Boot JAR)
         // ============================================================
         stage('Package Application') {
