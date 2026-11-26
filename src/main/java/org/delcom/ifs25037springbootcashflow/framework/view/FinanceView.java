@@ -1,5 +1,6 @@
 package org.delcom.ifs25037springbootcashflow.framework.view;
 
+import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -52,7 +53,9 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Tampilan web Vaadin pencatatan keuangan milik pengguna yang sedang login.
  */
+
 @Route(value = "", layout = MainLayout.class)
+@RouteAlias(value = "dashboard", layout = MainLayout.class)
 @PageTitle("Cashflow")
 public class FinanceView extends VerticalLayout {
 
