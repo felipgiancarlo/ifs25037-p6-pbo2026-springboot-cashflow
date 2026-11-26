@@ -55,8 +55,9 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 
 @Route(value = "", layout = MainLayout.class)
-@RouteAlias(value = "dashboard", layout = MainLayout.class)
 @PageTitle("Cashflow")
+
+
 public class FinanceView extends VerticalLayout {
 
     private static final String EMPTY_TEXT = "- Data transaksi belum tersedia!";

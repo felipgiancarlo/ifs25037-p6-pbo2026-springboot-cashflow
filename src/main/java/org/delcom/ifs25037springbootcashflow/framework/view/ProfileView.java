@@ -32,8 +32,6 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Route(value = "profile", layout = MainLayout.class)
-@RouteAlias(value = "settings", layout = MainLayout.class)
-@RouteAlias(value = "profiles", layout = MainLayout.class)
 @PageTitle("Profil")
 public class ProfileView extends VerticalLayout {
 
