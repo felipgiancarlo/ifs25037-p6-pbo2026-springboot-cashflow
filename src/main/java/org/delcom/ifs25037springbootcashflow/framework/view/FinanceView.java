@@ -1,6 +1,5 @@
 package org.delcom.ifs25037springbootcashflow.framework.view;
 
-import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -25,6 +24,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.server.streams.UploadHandler;
 import org.delcom.ifs25037springbootcashflow.adapter.presenter.FinancePresenter;
 import org.delcom.ifs25037springbootcashflow.adapter.storage.FileStorage;
@@ -53,11 +53,9 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Tampilan web Vaadin pencatatan keuangan milik pengguna yang sedang login.
  */
-
 @Route(value = "", layout = MainLayout.class)
+@RouteAlias(value = "dashboard", layout = MainLayout.class)
 @PageTitle("Cashflow")
-
-
 public class FinanceView extends VerticalLayout {
 
     private static final String EMPTY_TEXT = "- Data transaksi belum tersedia!";
@@ -382,7 +380,10 @@ public class FinanceView extends VerticalLayout {
             }).whenComplete((result, error) -> ui.access(() -> {
                 try {
                     if (error != null) {
-                        Throwable cause = error.getCause() != null ? error.getCause() : error;
+                        Throwable cause = error;
+                        while (cause.getCause() != null) {
+                            cause = cause.getCause();
+                        }
                         showError("Gagal menghasilkan konten AI: " + cause.getMessage());
                         return;
                     }
